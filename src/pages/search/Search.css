@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@500&display=swap");
+.search {
+  display: flex;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  height: 90%;
+}
+
+.form-search {
+  display: flex;
+  justify-content: center;
+}
+
+.container-input-search {
+  width: 80%;
+  margin-top: 10px;
+}
+
+.users-container-search {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.users-search {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-found {
+  list-style: none;
+}
+
+.user-search-link {
+  text-decoration: none;
+  color: #666;
+  display: flex;
+  align-items: center;
+  border: #888 0.1px solid;
+  border-radius: 4px;
+}
+
+.notResults {
+  margin: 20px;
+}/*# sourceMappingURL=Search.css.map */

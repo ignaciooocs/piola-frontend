@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@500&display=swap");
+.Input {
+  height: 40px;
+  width: 100%;
+  border-radius: 4px;
+  border: 0.1px #666 solid;
+  font-size: 14px;
+  color: #444;
+  padding-left: 10px;
+  letter-spacing: 1px;
+}
+
+Input:focus {
+  outline: #2ad solid 0.1px;
+  border: 0.1px #2ad solid;
+}
+
+.Input::-moz-placeholder {
+  color: #aaa;
+}
+
+.Input::placeholder {
+  color: #aaa;
+}/*# sourceMappingURL=Input.css.map */

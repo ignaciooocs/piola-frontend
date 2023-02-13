@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@500&display=swap");
+.Notification {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-title {
+  padding: 15px 0;
+  width: 90%;
+  display: flex;
+  justify-content: end;
+  color: #2ad;
+}
+
+.notifications-container {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.notification-item {
+  border-bottom: 0.1px #666 solid;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+.user-notification-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.container-pictures-notification {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  overflow: hidden;
+  margin: 5px;
+}
+
+.user-picture-notification {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.notification-content {
+  color: #000;
+  font-size: 14px;
+}
+
+.date-notification {
+  position: absolute;
+  bottom: 5px;
+  right: 0;
+  font-size: 12px;
+}/*# sourceMappingURL=Notifications.css.map */

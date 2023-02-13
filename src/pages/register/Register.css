@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@500&display=swap");
+.register {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.register .form-register {
+  margin-top: 50px;
+  height: 70%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 0.1px #666 solid;
+  border-radius: 8px;
+  padding: 0 20px;
+  box-shadow: 5px 5px #2ad;
+}
+
+.label-register {
+  letter-spacing: 1px;
+  height: 25%;
+  display: flex;
+  align-items: center;
+  color: #2ab;
+  font-weight: 600;
+}
+
+.container-input-error {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-input-register {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.error {
+  color: #f55;
+  font-size: 12px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+}
+
+.container-button-register {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.iniciar {
+  margin-top: 20px;
+  text-align: center;
+}/*# sourceMappingURL=Register.css.map */

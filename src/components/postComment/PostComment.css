@@ -1,0 +1,30 @@
+.form-postComment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border: 0.1px #666 solid;
+  border-radius: 4px;
+  padding: 20px 0;
+  margin: 10px 20px 30px 20px;
+}
+
+.container-input {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+textarea {
+  height: 80px;
+  max-width: 100%;
+  border-radius: 4px;
+  border: 0.1px #666 solid;
+  padding: 10px;
+}
+
+textarea:focus {
+  outline: 0.1px #2ab solid;
+}/*# sourceMappingURL=PostComment.css.map */

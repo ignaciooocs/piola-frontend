@@ -1,0 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@500&display=swap");
+.Button {
+  height: 30px;
+  font-family: "Montserrat", sans-serif;
+  padding: 0 5px;
+  border-radius: 5px;
+  background: transparent;
+  font-weight: 600;
+}/*# sourceMappingURL=Button.css.map */

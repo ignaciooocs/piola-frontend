@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #fefefe;
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
+
+.App {
+  padding-top: 45px;
+  height: 100%;
+}
+
+h1 {
+  color: #2ad
+}

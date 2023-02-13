@@ -1,0 +1,20 @@
+.empty-container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.search-img-container {
+  height: 40%;
+  width: 50%;
+}
+
+.search-img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}/*# sourceMappingURL=EmptyLikedUsers.css.map */

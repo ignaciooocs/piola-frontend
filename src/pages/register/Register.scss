@@ -1,0 +1,66 @@
+@import '../../styles/styles.scss';
+
+.register {
+    font-family: $monserrat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.register .form-register {
+    margin-top: 50px;
+    height: 70%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: .1px $gray solid;
+    border-radius: 8px;
+    padding: 0 20px;
+    box-shadow: 5px 5px $blue;
+}
+
+.label-register {
+    letter-spacing: 1px;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    color: #2ab;
+    font-weight: 600;
+}
+
+.container-input-error {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.container-input-register {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.error {
+    color: #f55;
+    font-size: 12px;
+    font-family: $monserrat;
+    font-weight: 600;
+}
+
+.container-button-register {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.iniciar {
+    margin-top: 20px;
+    text-align: center;
+}

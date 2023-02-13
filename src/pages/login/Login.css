@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@500&display=swap");
+.login {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-container {
+  margin-top: 20px;
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  width: 80%;
+  line-height: 30px;
+  font-weight: 600;
+  color: #2ad;
+}
+
+.login .form-login {
+  margin: 40px 0;
+  height: 400px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 40px;
+  border-radius: 8px;
+  padding: 40px 20px;
+  border: 0.1px #666 solid;
+  box-shadow: 5px 5px #2ad;
+  max-width: 350px;
+}
+
+.label-login {
+  letter-spacing: 1px;
+  height: 25%;
+  display: flex;
+  align-items: center;
+  color: #2ad;
+  font-weight: 600;
+}
+
+.container-input-login {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.container-button-login {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.registrate {
+  margin: 20px;
+  text-align: center;
+}
+
+.welcome-description {
+  margin-top: 100px;
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  width: 80%;
+  line-height: 30px;
+  font-weight: 600;
+  color: #2ad;
+  border: 0.1px #666 solid;
+  box-shadow: 5px 5px #2ad;
+  margin-bottom: 50px;
+  max-width: 350px;
+}/*# sourceMappingURL=Login.css.map */

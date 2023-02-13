@@ -1,0 +1,82 @@
+@import '../../styles/styles.scss';
+
+.login {
+    font-family: $monserrat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcome-container {
+    margin-top: 20px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    width: 80%;
+    line-height: 30px;
+    font-weight: 600;
+    color: $blue
+}
+
+.login .form-login {
+    margin: 40px 0;
+    height: 400px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 40px;
+    border-radius: 8px;
+    padding: 40px 20px;
+    border: .1px #666 solid;
+    box-shadow: 5px 5px $blue;
+    max-width: 350px;
+}
+
+.label-login {
+    letter-spacing: 1px;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    color: $blue;
+    font-weight: 600;
+}
+
+.container-input-login {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.container-button-login {
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.registrate {
+    margin: 20px;
+    text-align: center;
+}
+
+.welcome-description {
+    margin-top: 100px;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    width: 80%;
+    line-height: 30px;
+    font-weight: 600;
+    color: $blue;
+    border: .1px #666 solid;
+    box-shadow: 5px 5px $blue;
+    margin-bottom: 50px;
+    max-width: 350px;
+}

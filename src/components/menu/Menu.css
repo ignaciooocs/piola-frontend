@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Space+Grotesk:wght@500&display=swap");
+.container-menu {
+  position: fixed;
+  top: 0;
+  margin-top: 45px;
+  padding: 20px 30px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #fff;
+  animation: animation 0.2s linear 1;
+  font-family: "Montserrat", sans-serif;
+}
+
+@keyframes animation {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.container-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
+}
+
+.buttons-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container-logout-button {
+  display: flex;
+  flex-direction: column;
+}
+
+.closee {
+  animation: close 0.3s linear 1;
+}
+
+@keyframes close {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}/*# sourceMappingURL=Menu.css.map */

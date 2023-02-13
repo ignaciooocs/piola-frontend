@@ -1,0 +1,20 @@
+@import './../../styles/styles.scss';
+
+.Input {
+    height: 40px;
+    width: 100%;
+    border-radius: 4px;
+    border: .1px #666 solid;
+    font-size: 14px;
+    color: #444;
+    padding-left: 10px;
+    letter-spacing: 1px;
+}
+
+Input:focus {
+    outline: $blue solid .1px;
+    border: .1px $blue solid;
+}
+.Input::placeholder {
+    color: #aaa
+}

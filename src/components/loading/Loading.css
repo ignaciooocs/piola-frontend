@@ -1,0 +1,37 @@
+.loader-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-container2 {
+    height: 100%;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-container3 {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid #2ad;
+    border-top-color: transparent;
+    animation: rot1 .8s linear infinite;
+}
+
+@keyframes rot1 {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,47 @@
+@import '../../styles/styles.scss';
+
+.container-modal-deleteAccount {
+    position: fixed;
+    top: 0;
+    margin-top: 45px;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #fff;
+    animation: animation .2s linear 1;
+    font-family: $monserrat;
+    z-index: 30;
+}
+
+.text-deleteAccount {
+    border: .1px solid #f55;
+    color: rgb(172, 59, 59);
+    background: rgb(251, 195, 195);
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.container-button-deleteAccount {
+    display: flex;
+    gap: 10px;
+}
+
+.closeDelete {
+    animation: closeDelete .25s linear 1;
+}
+
+@keyframes closeDelete {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
