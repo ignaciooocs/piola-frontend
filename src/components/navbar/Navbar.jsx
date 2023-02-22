@@ -33,16 +33,18 @@ const Navbar = () => {
   const { menu, deleteAccount, confirm } = useSelector(state => state.openModal)
 
   const [rotate, setRotate] = useState('')
+
   const exit = async () => {
     try {
       await Logout()
     } catch (error) {
-      console.log('error')
+      console.log('error logout')
     }
   }
 
   // Cerrar la sesion del usuario
   const logout = () => {
+    exit()
     dispatch(unsetUser())
     dispatch(setLikedUsers({
       likedUsers: null
@@ -51,7 +53,6 @@ const Navbar = () => {
     dispatch(unsetProfileUser())
     dispatch(unsetNotification())
     dispatch(openConfirm({ confirm: false }))
-    exit()
     navigate('/')
   }
 
@@ -133,7 +134,7 @@ const Navbar = () => {
                 <motion.h1 drag dragConstraints={{ top: -0, left: -0, right: 0, bottom: 0 }} onClick={() => navigate('/')}>Piola</motion.h1>
                 )
         }
-        {token &&
+        {((path !== '/login' && path !== '/register') && token) &&
           <div className='header-icons'>
             <div className={className('/')} onClick={homeOnClick}>
               <img className='home-icon' src={home} />

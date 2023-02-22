@@ -119,7 +119,7 @@ const PreStorie = ({ commentId, comment }) => {
         <b style={{ margin: 0, padding: '15px', color: '#ffffff', background: color, display: 'block', textAlign: 'center', borderTopRightRadius: '20px', borderTopLeftRadius: '20px', letterSpacing: '1px' }}>{comment.by}</b>
         <p style={{ margin: 0, padding: '20px', background: '#eeeeef', color: '#444', fontSize: '16px' }}>{comment.comment}</p>
       </motion.div>
-      <motion.textarea drag dragConstraints={{ top: -500, left: -100, right: 100, bottom: 100 }} style={{ maxWidth: '80%', width: '80%', marginBottom: '20px', margin: 5, fontSize: '16px', maxHeight: '200px', background: '#eeeeef', padding: '20px', overflow: 'auto' }} type='text' placeholder='responder' onChange={(e) => setInput(e.target.value)} />
+      <motion.textarea drag dragConstraints={{ top: -500, left: -100, right: 100, bottom: 100 }} style={{ maxWidth: '80%', width: '80%', marginBottom: '20px', margin: 5, fontSize: '16px', maxHeight: '200px', background: '#eeeeef', padding: '20px' }} type='text' placeholder='responder' onChange={(e) => setInput(e.target.value)} />
       <motion.div drag dragConstraints={{ top: -600, left: -100, right: 100, bottom: 0 }} style={sendStyle}>
         <FontAwesomeIcon icon={faPaperPlane} type='button' onClick={() => storieButton(commentId)}>enviar a la historia</FontAwesomeIcon>
       </motion.div>

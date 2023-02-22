@@ -7,7 +7,6 @@ export const getUser = async (username) => {
     const res = await Axios.get(url)
     const { data } = res
     return data
-    // console.log(data)
   } catch (error) {
     console.log('ocurrio un error al obtener al usuario')
   }
@@ -19,7 +18,6 @@ export const getUserById = async (id) => {
     const res = await Axios.get(url)
     const { data } = res
     return data
-    // console.log(data)
   } catch (error) {
     console.log('ocurrio un error al obtener al usuario')
   }

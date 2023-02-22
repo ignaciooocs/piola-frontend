@@ -2,15 +2,14 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Button from '../../components/button/Button'
 import Input from '../../components/input/Input'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { setUser } from '../../reducers/user/userSlice'
 import { login } from '../../services/login'
 import './Login.css'
-import { useRefresh } from '../../hooks/useRefresh'
 
 const Login = () => {
   // cargar los datos de la sesion del usuario actual y mandarlos al reducer
-  useRefresh(setUser)
+  const navigate = useNavigate()
 
   // Se crea funcion de dispatch
   const dispatch = useDispatch()
@@ -55,6 +54,7 @@ const Login = () => {
       const data = await login(userLogin, setError)
       console.log(data)
       dispatch(setUser(data))
+      navigate('/')
     } catch (error) {
       console.log(error.response.data.error)
     }

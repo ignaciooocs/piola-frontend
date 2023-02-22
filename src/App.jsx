@@ -12,11 +12,14 @@ const App = () => {
   useRefresh(setUser)
   const [welcome, setWelcome] = useState(true)
   const { storie } = useSelector(state => state.openModal)
+  const { token } = useSelector(state => state.user)
 
   useEffect(() => {
     setTimeout(() => setWelcome(false), 2000)
   }, [])
-
+  if (token === false) {
+    return <WelcomeScreen />
+  }
   return (
     <div className={`${storie ? 'app' : 'App'}`}>
       <StorieProvider>

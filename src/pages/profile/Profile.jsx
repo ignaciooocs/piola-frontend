@@ -24,7 +24,6 @@ const Profile = () => {
   useGetNotifications()
   useWindowScroll()
   useGetUserLiked()
-  // useProfileUser()
 
   // se crea la funcion de dispatch y para traer el parametro
   const params = useParams()
@@ -74,7 +73,7 @@ const Profile = () => {
               <motion.div style={{ userSelect: 'none' }} drag dragConstraints={{ top: -0, left: -0, right: 0, bottom: 0 }} className={`picture ${stories.length > 0 && 'viewPicture'}`}>
                 {!picture
                   ? <img className='profile-picture' src={notPicture} />
-                  : <img onClick={openHistory} className='profile-picture' src={`http://localhost:5000/profile-picture/${picture}`} />}
+                  : <img onClick={openHistory} className='profile-picture' src={`${import.meta.env.VITE_URL}/profile-picture/${picture}`} />}
               </motion.div>
             </motion.div>
             <ProfileInformation id={id} />

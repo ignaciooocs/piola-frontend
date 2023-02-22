@@ -54,7 +54,7 @@ const Register = () => {
       setLoading(true)
       const res = await register(newUser, setError)
       console.log(res)
-      navigate('/')
+      navigate('/login')
     } catch (error) {
       setLoading(false)
       console.log('error en el registro')
@@ -84,7 +84,7 @@ const Register = () => {
           </>}
         {loading && <Loading />}
       </form>
-      <p className='iniciar'>¿Ya tienes cuenta? <br /> <NavLink style={{ color: '#2ad' }} to='/'>Iniciar sesión</NavLink></p>
+      <p className='iniciar'>¿Ya tienes cuenta? <br /> <NavLink style={{ color: '#2ad' }} to='/login'>Iniciar sesión</NavLink></p>
     </div>
   )
 }

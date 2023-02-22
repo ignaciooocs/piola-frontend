@@ -48,7 +48,7 @@ const EditProfile = () => {
         <div className='picture'>
           {!picture
             ? <img className='profile-picture' src={notPicture} />
-            : <img className='profile-picture' src={`http://localhost:5000/profile-picture/${picture}`} />}
+            : <img className='profile-picture' src={`${import.meta.env.VITE_URL}/profile-picture/${picture}`} />}
         </div>
       </div>
       <p style={{ textAlign: 'center' }}>Editar Perfil</p>

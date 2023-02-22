@@ -1,6 +1,7 @@
 import Axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { unsetUser } from '../reducers/user/userSlice'
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export const useRefresh = (action) => {
@@ -23,6 +24,7 @@ export const useRefresh = (action) => {
       dispatch(action(res.data))
       setTime()
     } catch (error) {
+      dispatch(unsetUser())
       console.log('ocurrio un error en refresh')
     }
   }

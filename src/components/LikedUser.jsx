@@ -68,7 +68,7 @@ const LikedUser = () => {
                 <div className='container-pictures'>
                   {!user.picture
                     ? <img className='user-picture' src={notPicture} />
-                    : <img className='user-picture' src={`http://localhost:5000/profile-picture/${user.picture}`} />}
+                    : <img className='user-picture' src={`${import.meta.env.VITE_URL}/profile-picture/${user.picture}`} />}
                 </div>
                 <b>@{user.username}</b>
               </NavLink>

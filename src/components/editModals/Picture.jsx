@@ -102,7 +102,7 @@ const Picture = () => {
             <div className='picture'>
               {!picture
                 ? <img className='profile-picture' src={preview || notPicture} />
-                : <img className='profile-picture' src={preview || `http://localhost:5000/profile-picture/${picture}`} />}
+                : <img className='profile-picture' src={preview || `${import.meta.env.VITE_URL}/profile-picture/${picture}`} />}
             </div>
           </div>
           <p style={{ textAlign: 'center' }}>{username}</p>
