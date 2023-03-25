@@ -33,7 +33,6 @@ export const editUser = async (content, { _id, token }) => {
     const url = `${BASE_URL}/users/${_id}`
     const res = await Axios.put(url, content, config)
     const { data } = res
-    console.log(data)
     return data
   } catch (error) {
     console.log('error al actualizar al usuario')
@@ -49,8 +48,7 @@ export const deleteUser = async ({ token }) => {
   }
   try {
     const url = `${BASE_URL}/users`
-    const res = await Axios.delete(url, config)
-    console.log(res)
+    await Axios.delete(url, config)
   } catch (error) {
     console.log('no se elimino el usuario')
   }

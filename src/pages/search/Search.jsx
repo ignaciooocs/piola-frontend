@@ -35,13 +35,11 @@ const Search = () => {
   const handleSearch = async (e) => {
     try {
       if (searchTerm === '') {
-        console.log(' no hay nada')
         setSearchResults(null)
         return
       }
       const response = await axios.get(`${BASE_URL}/users/search/${searchTerm}`)
       setSearchResults(response.data)
-      console.log(response.data)
     } catch (error) {
       console.error(error)
     }
@@ -90,7 +88,7 @@ const Search = () => {
                     <div className='container-pictures'>
                       {!user.picture
                         ? <img className='user-picture' src={notPicture} />
-                        : <img className='user-picture' src={`${import.meta.env.VITE_URL}/profile-picture/${user.picture}`} />}
+                        : <img className='user-picture' src={user.picture} />}
                     </div>
                     <b>{user.username}</b>
                   </NavLink>
@@ -102,7 +100,7 @@ const Search = () => {
                   <div className='container-pictures'>
                     {!user.picture
                       ? <img className='user-picture' src={notPicture} />
-                      : <img className='user-picture' src={`http://localhost:5000/profile-picture/${user.picture}`} />}
+                      : <img className='user-picture' src={user.picture} />}
                   </div>
                   <b>{user.username}</b>
                 </NavLink>

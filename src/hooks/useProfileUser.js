@@ -16,7 +16,6 @@ const useProfileUser = () => {
       try {
         const res = await getUser(params.username)
         dispatch(setProfileUser(res))
-        console.log(res)
       } catch (error) {
         console.log('ocurrio un error al traer al usuario')
       }

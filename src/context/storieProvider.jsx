@@ -12,11 +12,11 @@ const StorieProvider = ({ children }) => {
   const { username, picture, _id } = useSelector(state => state.profileUser)
   const { id } = useSelector(state => state.user)
   const initialState = [{
-    url: `${import.meta.env.VITE_URL}/profile-picture/${picture}`,
+    url: picture,
     duration: 1500,
     header: {
       heading: username,
-      profileImage: `${import.meta.env.VITE_URL}/profile-picture/${picture}`
+      profileImage: picture
     }
   }]
   const [storie, setStorie] = useState()
@@ -54,7 +54,6 @@ const StorieProvider = ({ children }) => {
             </div>)
         }])
       })
-      console.log(storie)
       setIsLoading(false)
     } catch (error) {
       setIsLoading(true)

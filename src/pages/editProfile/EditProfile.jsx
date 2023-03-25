@@ -35,7 +35,6 @@ const EditProfile = () => {
       try {
         const res = await getUser(username)
         dispatch(setProfileUser(res))
-        console.log(res)
       } catch (error) {
         console.log('ocurrio un error al traer al usuario')
       }
@@ -48,7 +47,7 @@ const EditProfile = () => {
         <div className='picture'>
           {!picture
             ? <img className='profile-picture' src={notPicture} />
-            : <img className='profile-picture' src={`${import.meta.env.VITE_URL}/profile-picture/${picture}`} />}
+            : <img className='profile-picture' src={picture} />}
         </div>
       </div>
       <p style={{ textAlign: 'center' }}>Editar Perfil</p>

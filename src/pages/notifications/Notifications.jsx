@@ -36,7 +36,7 @@ const Notifications = () => {
                 <div className='container-pictures-notification'>
                   {!notification.picture
                     ? <img className='user-picture-notification' src={notPicture} />
-                    : <img className='user-picture-notification' src={`${import.meta.env.VITE_URL}/profile-picture/${notification.picture}`} />}
+                    : <img className='user-picture-notification' src={notification.picture} />}
                 </div>
                 <p className='notification-content'>A <b>{notification.username}</b> le ha gustado tu perfil</p>
               </div>

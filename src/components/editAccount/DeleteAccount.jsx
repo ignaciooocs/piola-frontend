@@ -81,7 +81,7 @@ const DeleteAcount = () => {
       }
       console.log('Comentarios eliminados')
       if (picture) {
-        await deletePicture(picture, { token })
+        await deletePicture({ token })
       }
       console.log('imagen eliminada')
       await deleteUser({ token })

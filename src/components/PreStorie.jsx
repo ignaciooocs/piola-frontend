@@ -42,11 +42,9 @@ const PreStorie = ({ commentId, comment }) => {
 
       }
 
-      const res = await postStorie(contentStorie, { token })
-      console.log(res)
+      await postStorie(contentStorie, { token })
       const user = await getUser(username)
       dispatch(setProfileUser(user))
-      console.log(user)
       getStories(stories)
       setIsOpen(false)
       setTimeout(() => dispatch(openPreStorie({ preStorie: false })), 100)

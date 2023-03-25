@@ -7,6 +7,8 @@ import Button from '../button/Button'
 import notPicture from '../../assets/not-picture2.png'
 import { openPicture } from '../../reducers/opnModalSlice/openModal'
 import Loading from '../loading/Loading'
+import { uploadFile } from '../../firebase/config'
+import { deletePicture } from '../../services/picture'
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Picture = () => {
@@ -15,9 +17,8 @@ const Picture = () => {
   const dispatch = useDispatch()
 
   // estados globales de los reducers
-  const { token, username } = useSelector(state => state.user)
+  const { token, username, id } = useSelector(state => state.user)
   const { picture } = useSelector(state => state.profileUser)
-  // const { editPicture } = useSelector(state => state.openModal)
 
   // token para las peticiónes a la api
   const config = {
@@ -32,6 +33,8 @@ const Picture = () => {
   const [preview, setPreview] = useState(null)
   const [close, setClose] = useState('')
 
+  // const [file, setfile] = useState(null)
+
   // Función para manejar foto y para mostrae vista previa
   const handleImageChange = (e) => {
     setImage(e.target.files[0])
@@ -44,42 +47,36 @@ const Picture = () => {
   }
 
   //  función para cambiar foto de perfil
-  const hanldeSubmit = async (e) => {
+  const handleSubmitFile = async (e) => {
     e.preventDefault()
-
     if (!image) {
       console.log('no se cambio')
       return
     }
-    // eslint-disable-next-line no-undef
-    const formData = new FormData()
-    formData.append('picture', image)
-
     try {
-      if (picture) {
-        await deletePicture(picture)
-      }
       setLoading(true)
+      const res = await uploadFile(image, id)
+      const files = {
+        url: res
+      }
       const url = `${BASE_URL}/profile/image`
-      const res = await Axios.post(url, formData, config)
-      console.log(res)
+      const response = await Axios.post(url, files, config)
+      console.log(response)
+      navigate(`/${username}`)
     } catch (error) {
       setLoading(false)
-      console.log('ocurrio un error')
-      console.log(error.response)
+      console.log('error al subir la foto')
     } finally {
       setLoading(false)
     }
   }
 
   // función para confirar eliminación de foto de perfil
-  const deletePicture = async (picture) => {
+  const deletePictures = async () => {
     try {
       setLoading(true)
-      const url = `${BASE_URL}/profile/image/${picture}`
-      const res = await Axios.delete(url, config)
+      await deletePicture({ token })
       navigate(`/${username}`)
-      console.log(res)
     } catch (error) {
       setLoading(false)
       console.log('no se elimino la imagen')
@@ -102,7 +99,7 @@ const Picture = () => {
             <div className='picture'>
               {!picture
                 ? <img className='profile-picture' src={preview || notPicture} />
-                : <img className='profile-picture' src={preview || `${import.meta.env.VITE_URL}/profile-picture/${picture}`} />}
+                : <img className='profile-picture' src={preview || picture} />}
             </div>
           </div>
           <p style={{ textAlign: 'center' }}>{username}</p>
@@ -112,8 +109,8 @@ const Picture = () => {
               <Button type='button' color='#27cc67' title='Elegir foto' />
             </form>
             <div className='container-buttons-picture'>
-              <Button onClick={() => deletePicture(picture)} color='#f55' title='Eliminar foto actual' />
-              <Button title='Guardar' color='#2ab' onClick={hanldeSubmit} />
+              <Button onClick={() => deletePictures()} color='#f55' title='Eliminar foto actual' />
+              <Button title='Guardar' color='#2ab' onClick={handleSubmitFile} />
               <Button onClick={cancel} color='#f55' title='Salir' />
             </div>
           </div>

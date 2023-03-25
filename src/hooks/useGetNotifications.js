@@ -10,7 +10,6 @@ const useGetNotifications = () => {
 
   // traer los estados del reducer
   const { notifications } = useSelector(state => state.profileUserLoggedIn)
-  const { notification } = useSelector(state => state.notification)
   const { token } = useSelector(state => state.user)
 
   useEffect(() => {
@@ -38,7 +37,6 @@ const useGetNotifications = () => {
         dispatch(setNotification({
           notification: notificaciones
         }))
-        console.log(notification)
       }
     } catch (error) {
       console.log('error con los usuarios gustados')

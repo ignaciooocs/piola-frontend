@@ -39,7 +39,6 @@ const Profile = () => {
       try {
         const res = await getUser(params.username)
         dispatch(setProfileUser(res))
-        console.log(res)
       } catch (error) {
         console.log('ocurrio un error al traer al usuario')
       }
@@ -73,7 +72,7 @@ const Profile = () => {
               <motion.div style={{ userSelect: 'none' }} drag dragConstraints={{ top: -0, left: -0, right: 0, bottom: 0 }} className={`picture ${stories.length > 0 && 'viewPicture'}`}>
                 {!picture
                   ? <img className='profile-picture' src={notPicture} />
-                  : <img onClick={openHistory} className='profile-picture' src={`${import.meta.env.VITE_URL}/profile-picture/${picture}`} />}
+                  : <img onClick={openHistory} className='profile-picture' src={picture} />}
               </motion.div>
             </motion.div>
             <ProfileInformation id={id} />
