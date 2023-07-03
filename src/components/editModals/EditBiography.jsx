@@ -8,18 +8,17 @@ import { editUser } from '../../services/user'
 import Button from '../button/Button'
 import Loading from '../loading/Loading'
 
-const EditBiography = () => {
+const EditBiography = ({ data }) => {
   // se crea la función del dispatch para actualizar los estados globales
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   // traer los estados globales
-  const { biography, _id, comments } = useSelector(state => state.profileUser)
   const { token } = useSelector(state => state.user)
 
   // estados locales
   const [loading, setLoading] = useState(false)
-  const [input, setInput] = useState(biography)
+  const [input, setInput] = useState(data.biography)
   const [close, setClose] = useState('')
 
   // Función para actualizar biografía
@@ -33,9 +32,9 @@ const EditBiography = () => {
         biography: input
       }
 
-      const res = await editUser(newBiography, { _id, token })
+      const res = await editUser(newBiography, { _id: data._id, token })
       dispatch(setProfileUser(res))
-      dispatch(setComments({ comments }))
+      dispatch(setComments({ comments: data.comments }))
       console.log(res)
       navigate(`/${res.username}`)
     } catch (error) {

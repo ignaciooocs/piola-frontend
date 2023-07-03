@@ -53,3 +53,25 @@ export const deleteUser = async ({ token }) => {
     console.log('no se elimino el usuario')
   }
 }
+
+export const getLikedUsers = async (id) => {
+  try {
+    const url = `${BASE_URL}/users/liked/${id}`
+    const res = await Axios.get(url)
+    const { data } = res
+    return data
+  } catch (error) {
+    console.log('ocurrio un error al obtener al usuario')
+  }
+}
+
+export const getNotifications = async (id) => {
+  try {
+    const url = `${BASE_URL}/users/notifications/${id}`
+    const res = await Axios.get(url)
+    const { data } = res
+    return data
+  } catch (error) {
+    console.log('ocurrio un error al obtener las notificaciones')
+  }
+}

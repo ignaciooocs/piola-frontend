@@ -13,12 +13,11 @@ import PreStorie from '../PreStorie'
 import { AnimatePresence, motion } from 'framer-motion'
 import Button from '../button/Button'
 
-const ProfileComments = ({ deletecomment }) => {
+const ProfileComments = ({ deletecomment, data }) => {
   // Función que actualiza el estado global
   const dispatch = useDispatch()
 
   // estados globales
-  const { comments, _id } = useSelector(state => state.profileUser)
   const { id, token } = useSelector(state => state.user)
   const { menu, confirm, preStorie } = useSelector(state => state.openModal)
   // estado local
@@ -74,10 +73,10 @@ const ProfileComments = ({ deletecomment }) => {
 
   return (
     <motion.ul layout className='user-comments-container'>
-      {comments.length === 0 &&
-        <NoPost id={id} _id={_id} />}
+      {data.comments.length === 0 &&
+        <NoPost id={id} _id={data._id} />}
       <AnimatePresence>
-        {comments?.map((comment, index) => (
+        {data.comments?.map((comment, index) => (
           <motion.li
             key={comment._id}
             style={{ userSelect: 'none' }}
@@ -91,14 +90,14 @@ const ProfileComments = ({ deletecomment }) => {
             {(loading && (comment._id === deleteId)) && <Loading className='loader-container3' />}
             <div className='container-date-by'>
               <h4 className='by'>by: {comment.by}</h4>
-              <div className={`${id !== _id ? 'date-comment-two' : 'date-comment'}`}>{formatDate(comment.createdAt)}</div>
+              <div className={`${id !== data._id ? 'date-comment-two' : 'date-comment'}`}>{formatDate(comment.createdAt)}</div>
             </div>
             {comment.comment?.split(' ').length > 30 &&
               <div className={`view-more-icon ${comment._id === commentId ? 'd-none' : ''}`} onClick={() => setCommentId(comment._id)}>
                 <FontAwesomeIcon icon={faCaretDown} style={{ fontSize: '20px' }} />
               </div>}
             <p>{comment.comment}</p>
-            {id === _id &&
+            {id === data._id &&
               <FontAwesomeIcon
                 className='options-icon'
                 onClick={() => open(comment._id)}
@@ -117,7 +116,7 @@ const ProfileComments = ({ deletecomment }) => {
               text='¿Eliminar post?'
             />
           }
-            {id === _id && <Button onClick={() => openInput(comment._id)} title='responder' color='#2ad' />}
+            {id === data._id && <Button onClick={() => openInput(comment._id)} title='responder' color='#2ad' />}
             {preStorie && (storieId === comment._id) &&
               <PreStorie commentId={comment._id} comment={comment} />}
           </motion.li>

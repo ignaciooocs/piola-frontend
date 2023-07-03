@@ -11,14 +11,13 @@ import { uploadFile } from '../../firebase/config'
 import { deletePicture } from '../../services/picture'
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
-const Picture = () => {
+const Picture = ({ data }) => {
   // se crea función de dispatch para redux y función para la navegación
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   // estados globales de los reducers
   const { token, username, id } = useSelector(state => state.user)
-  const { picture } = useSelector(state => state.profileUser)
 
   // token para las peticiónes a la api
   const config = {
@@ -97,9 +96,9 @@ const Picture = () => {
         <>
           <div className='container-picture'>
             <div className='picture'>
-              {!picture
+              {!data.picture
                 ? <img className='profile-picture' src={preview || notPicture} />
-                : <img className='profile-picture' src={preview || picture} />}
+                : <img className='profile-picture' src={preview || data.picture} />}
             </div>
           </div>
           <p style={{ textAlign: 'center' }}>{username}</p>

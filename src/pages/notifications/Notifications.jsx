@@ -1,37 +1,46 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import notPicture from '../../assets/not-picture2.png'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../components/loading/Loading'
 import './Notifications.css'
-import { unsetProfileUser } from '../../reducers/profileUser/profileUserSlice'
 import { formatDate } from '../../utils/functions'
-import useGetNotifications from '../../hooks/useGetNotifications'
 import { motion } from 'framer-motion'
+import { getNotifications } from '../../services/user'
+import { useQuery } from '@tanstack/react-query'
 
 const Notifications = () => {
-  useGetNotifications()
   // Se crea funcion de dispatch
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // traer los estados del reducer
-  const { notification } = useSelector(state => state.notification)
+  const { id } = useSelector(state => state.user)
+
+  const get = async () => {
+    return await getNotifications(id)
+  }
+
+  const { data: notification, isLoading, error } = useQuery({
+    queryFn: get,
+    queryKey: ['Notifications'],
+    onSuccess: () => {
+      console.log('Notificaciones obtenidas')
+    }
+  })
 
   // función que te lleva al perfil del usuario el cual te a llegado la notificación
   const notificationsOnClick = (user) => {
-    dispatch(unsetProfileUser())
     navigate(`/${user}`)
   }
 
+  if (isLoading) return <Loading />
+  if (error) return <p>error: {error}</p>
   return (
     <div className='Notification'>
-      <h3 className='notification-title'>Notificaciónes</h3>
-      {!notification && <Loading />}
+      <h3 className='notification-title'>Notificaciones</h3>
       {notification?.length === 0 && <p>No tienes notificaciónes</p>}
       {notification &&
         <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='notifications-container'>
           {notification?.map(notification => (
-            <li onClick={() => notificationsOnClick(notification.username)} className='notification-item' key={notification.id}>
+            <li onClick={() => notificationsOnClick(notification.username)} className='notification-item' key={notification._id}>
               <div className='user-notification-container'>
                 <div className='container-pictures-notification'>
                   {!notification.picture

@@ -9,7 +9,7 @@ import Loading from './loading/Loading'
 import { useState } from 'react'
 import { setProfileUserLoggedIn } from '../reducers/profileUserLoggedIn/profileUserLoggedIn'
 
-const ButtonLike = () => {
+const ButtonLike = ({ data }) => {
   // se crea la funcion de dispatch y para traer el parametro
   const dispatch = useDispatch()
   const params = useParams()
@@ -19,16 +19,15 @@ const ButtonLike = () => {
 
   // traer los estados del reducer
   const { token, id } = useSelector(state => state.user)
-  const { _id, likes } = useSelector(state => state.profileUser)
 
   // Busca si el usuario iniciado a dado like al perfil (devuelve true o false)
-  const fromLike = likes.some(user => user.fromUser === id)
+  const fromLike = data.likes.some(user => user.fromUser === id)
   console.log(fromLike)
 
   // se crea el objeto con el id del usuario que da like y el que lo recibe
   const Like = {
     fromUser: id,
-    toUser: _id
+    toUser: data._id
   }
 
   // Función para dar like
@@ -41,7 +40,7 @@ const ButtonLike = () => {
         return
       }
       setLoading(true)
-      await like(Like, { _id, token })
+      await like(Like, { _id: data._id, token })
       console.log('se dio el like')
       const res = await getUser(params.username)
       const user = await getUserById(id)
@@ -59,7 +58,7 @@ const ButtonLike = () => {
   const deleteLike = async () => {
     try {
       setLoading(true)
-      await removeLike({ _id, token })
+      await removeLike({ _id: data._id, token })
       console.log('se elimino el like')
       const res = await getUser(params.username)
       const user = await getUserById(id)

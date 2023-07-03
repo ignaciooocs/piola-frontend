@@ -12,18 +12,17 @@ import Loading from '../loading/Loading'
 import { useNavigate } from 'react-router-dom'
 // const STORAGE = import.meta.env.VITE_USER_STORAGE
 
-const EditUsername = () => {
+const EditUsername = ({ data }) => {
   // se crea la función de dispatch para actualizar estados globales
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   // se traen los estados globales
-  const { username, _id, comments } = useSelector(state => state.profileUser)
   const { token } = useSelector(state => state.user)
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [input, setInput] = useState(username)
+  const [input, setInput] = useState(data.username)
   const [close, setClose] = useState('')
 
   // función para cambiar nombre de usuario
@@ -41,14 +40,14 @@ const EditUsername = () => {
         username: input
       }
 
-      const res = await editUser(newUsername, { _id, token })
+      const res = await editUser(newUsername, { _id: data._id, token })
       dispatch(setProfileUser(res))
       dispatch(setUser({
         username: res.username,
         token,
         id: res._id
       }))
-      dispatch(setComments({ comments }))
+      dispatch(setComments({ comments: data.comments }))
       console.log(res)
       navigate(`/${res.username}`)
     } catch (error) {

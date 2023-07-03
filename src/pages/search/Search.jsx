@@ -7,14 +7,25 @@ import notPicture from '../../assets/not-picture2.png'
 import './Search.css'
 import SearchEmpty from '../../components/SearchEmpty'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useQuery } from '@tanstack/react-query'
+import { getLikedUsers } from '../../services/user'
+import Loading from '../../components/loading/Loading'
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Search = () => {
   // cargar los datos de la sesion del usuario actual y mandarlos al reducer
 
-  const { likedUsers } = useSelector(state => state.likedUsers)
   const { liked } = useSelector(state => state.profileUserLoggedIn)
-  const { token } = useSelector(state => state.user)
+  const { token, id } = useSelector(state => state.user)
+
+  const get = async () => {
+    return await getLikedUsers(id)
+  }
+
+  const { data, isLoading, error } = useQuery({
+    queryFn: get,
+    queryKey: ['LikedUsers']
+  })
 
   const navigate = useNavigate()
 
@@ -27,6 +38,7 @@ const Search = () => {
     if (!token) {
       navigate('/')
     }
+    if (isLoading) return
     inputRef.current.focus()
     handleSearch()
   }, [searchTerm])
@@ -56,6 +68,9 @@ const Search = () => {
 
   const inputRef = useRef(null)
 
+  if (isLoading) return <Loading />
+  if (error) return <p>error: {error}</p>
+
   return (
     <div className='search'>
       <form className='form-search'>
@@ -75,7 +90,7 @@ const Search = () => {
         <motion.ul layout className='users-search'>
           <AnimatePresence>
             {!searchResults &&
-              likedUsers?.map((user) => (
+              data.map((user) => (
                 <motion.li
                   className='user-found' key={user._id}
                   variants={variants}

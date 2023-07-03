@@ -1,30 +1,28 @@
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import Button from '../button/Button'
 import ButtonLike from '../ButtonLike'
 import './ProfileInformation.css'
 
-const ProfileInformation = ({ id }) => {
+const ProfileInformation = ({ id, data }) => {
   // estados globales y función de navegació
-  const { username, comments, _id, biography, likes } = useSelector(state => state.profileUser)
   const navigate = useNavigate()
 
   // {id === _id && 'Tu'} {id !== _id ? 'B' : 'b'}iografía <br />
   return (
     <div className='profile-information'>
-      <b>@{username}</b>
-      {id !== _id && <ButtonLike />}
-      <p>{biography}</p>
-      {id === _id &&
+      <b>@{data.username}</b>
+      {id !== data._id && <ButtonLike data={data} />}
+      <p>{data.biography}</p>
+      {id === data._id &&
         <div>
-          <Button onClick={() => navigate('/edit/profile')} title='editar perfil' color='#2ad' />
+          <Button onClick={() => navigate('/edit/profile/' + data.username)} title='editar perfil' color='#2ad' />
         </div>}
       <div className='container-post-likes'>
         <div className='post-container'>
-          posts <br /> {comments.length}
+          posts <br /> {data.comments.length}
         </div>
         <div className='post-container'>
-          Lovers <br /> {likes?.length}
+          Lovers <br /> {data.likes?.length}
         </div>
       </div>
     </div>
