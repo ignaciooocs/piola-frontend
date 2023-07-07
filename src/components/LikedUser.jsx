@@ -1,30 +1,9 @@
-import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import notPicture from '../assets/not-picture2.png'
-import Loading from './loading/Loading'
 import PostComment from '../components/postComment/PostComment'
 import { motion } from 'framer-motion'
-import { useQuery } from '@tanstack/react-query'
-import { getLikedUsers } from '../services/user'
-const LikedUser = () => {
-  // traer los estados del reducer
-  const { id } = useSelector(state => state.user)
 
-  const get = async () => {
-    return await getLikedUsers(id)
-  }
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['LikedUsers'],
-    queryFn: get,
-    onSuccess: () => {
-      console.log('Liked users obtenidos')
-    }
-  })
-  if (isLoading) return <Loading className='loader-container' />
-
-  if (error) return <div>Error: {error}</div>
-
+const LikedUser = ({ data }) => {
   const variants = {
     hidden: {
       opacity: 0
@@ -59,7 +38,7 @@ const LikedUser = () => {
               <b>@{user.username}</b>
             </NavLink>
           </div>
-          {user.comments?.length === 0 && <PostComment _id={user._id} />}
+          {user.comments?.length === 0 && <PostComment data={user} />}
           <ul className='user-comments-container'>
             {
                 user.comments.map(comment => (

@@ -1,20 +1,14 @@
 import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { postComment } from '../../services/comments'
-import { getUser } from '../../services/user'
-import { useParams } from 'react-router-dom'
-import { setProfileUser } from '../../reducers/profileUser/profileUserSlice'
 import Input from '../input/Input'
 import Button from '../button/Button'
 import Loading from '../loading/Loading'
 import './PostComment.css'
 import { motion } from 'framer-motion'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const PostComment = ({ _id }) => {
-  // se crea la funcion de dispatch y para traer el parametro
-  const dispatch = useDispatch()
-  const params = useParams()
-
+const PostComment = ({ data }) => {
   // Traer los estados del reducer
   const { token } = useSelector(state => state.user)
 
@@ -28,6 +22,15 @@ const PostComment = ({ _id }) => {
   // Estado y funcion para manejar el valor y los cambios del input
   const [input, setInput] = useState(initialState)
 
+  const useQuery = useQueryClient()
+
+  const { mutate } = useMutation((content) => postComment(content, { _id: data._id, token }), {
+    onSuccess: () => {
+      useQuery.invalidateQueries(data.username)
+      setInput(initialState)
+    }
+  })
+
   const handleChange = (e) => {
     setInput({
       ...input,
@@ -38,22 +41,22 @@ const PostComment = ({ _id }) => {
   // Funcion para publicar un nuevo comentario
   const handleSubmit = async (e) => {
     e.preventDefault()
+    // Si el usuario intenta realizar un comentario si estar iniciado se le enviara una alerta
     if (!token) {
       window.alert('Debes iniciar sesion')
       return
     }
 
+    // nuevo comtario
     const comment = {
       by: input.by,
       comment: input.comment
     }
+
     try {
       setLoading(true)
-      await postComment(comment, { _id, token })
-      const res = await getUser(params.username)
-      dispatch(setProfileUser(res))
-
-      setInput(initialState)
+      // solicitud para el nuevo comentario
+      mutate(comment)
     } catch (error) {
       setLoading(false)
       console.log('no se a publicado el comentario')

@@ -3,11 +3,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../button/Button'
-import { deleteUser } from '../../services/user'
+import { deleteUser, getUserById } from '../../services/user'
 import { unsetUser } from '../../reducers/user/userSlice'
-import { setLikedUsers } from '../../reducers/likedUsersSlice/likedUsersSlice'
-import { unsetProfileUserLoggedIn } from '../../reducers/profileUserLoggedIn/profileUserLoggedIn'
-import { unsetProfileUser } from '../../reducers/profileUser/profileUserSlice'
 import { removeLikeById } from '../../services/like'
 import { deletePicture } from '../../services/picture'
 import { deleteCommets } from '../../services/comments'
@@ -18,6 +15,7 @@ import { deleteClose, confirmClose } from '../../reducers/className/classSlice'
 import './EditAccount.css'
 import { Logout } from '../../services/logout'
 import { deleteStories } from '../../services/stories'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 const DeleteAcount = () => {
   // se crea función de dispatch para redux y función para la navegación
@@ -26,74 +24,101 @@ const DeleteAcount = () => {
 
   // se traen los estdos de los reducers
   const { deleteClass } = useSelector(state => state.className)
-  const { token } = useSelector(state => state.user)
-  const { likes, liked, picture, comments, stories } = useSelector(state => state.profileUser)
+  const { token, id, username } = useSelector(state => state.user)
   const { deleteAccount: deleteaccount, confirm } = useSelector(state => state.openModal)
 
   const [loading, setLoading] = useState(false)
 
-  const exit = async () => {
-    try {
-      await Logout()
-    } catch (error) {
-      console.log('error')
-    }
-  }
+  // obtener datos del usuario iniciado
+  const get = () => getUserById(id)
 
-  // función para cerrar sesión después de eliminar la cuenta
-  const logout = () => {
-    exit()
-    dispatch(unsetUser())
-    dispatch(setLikedUsers({
-      likedUsers: null
-    }))
-    dispatch(unsetProfileUserLoggedIn())
-    dispatch(unsetProfileUser())
-    navigate('/')
-  }
+  const { data, isLoading, error } = useQuery({
+    queryFn: get,
+    queryKey: [username]
+  })
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>error...</div>
+
+  // Cerrar la sesion del usuario
+  const logout = useMutation({
+    mutationFn: Logout,
+    onSuccess: () => {
+      dispatch(unsetUser())
+      dispatch(openConfirm({ confirm: false }))
+      navigate('/')
+    }
+  })
 
   // funcion para eliminar completamente la cuenta del usuario
   const deleteAccount = async () => {
     try {
       dispatch(openConfirm({ confirm: false }))
       setLoading(true)
-      if (liked) {
-        for (const likesId of likes) {
-          await removeLikeById(likesId._id)
+      // Eliminar likes recibidos
+      if (data.likes) {
+        for (const likesId of data.likes) {
+          try {
+            await removeLikeById(likesId._id)
+          } catch (error) {
+            console.log('ocurrió un error al eliminar el like:', likesId._id)
+          }
         }
       }
-      if (stories) {
-        for (const storieId of stories) {
-          await deleteStories(storieId._id, { token })
+      // eliminar historias
+      if (data.stories) {
+        for (const storieId of data.stories) {
+          try {
+            await deleteStories(storieId._id, { token })
+          } catch (error) {
+            console.log('ocurrió un error al eliminar la historia:', storieId._id)
+          }
         }
       }
-      if (liked) {
-        for (const likesId of liked) {
-          await removeLikeById(likesId._id)
+      // eliminar Likes dados
+      if (data.liked) {
+        for (const likesId of data.liked) {
+          try {
+            await removeLikeById(likesId._id)
+          } catch (error) {
+            console.log('ocurrió un error al eliminar el liked:', likesId._id)
+          }
         }
       }
-      console.log('likes eliminados')
-      if (comments) {
-        for (const comment of comments) {
-          await deleteCommets(comment._id, { token })
+      // eliminar comentarios
+      if (data.comments) {
+        for (const comment of data.comments) {
+          try {
+            await deleteCommets(comment._id, { token })
+          } catch (error) {
+            console.log('ocurrió un error al eliminar el comentario:', comment._id)
+          }
         }
-        console.log('stories eliminadas')
       }
-      console.log('Comentarios eliminados')
-      if (picture) {
-        await deletePicture({ token })
+      // eliminar foto de perfil
+      if (data.picture) {
+        try {
+          await deletePicture({ token })
+        } catch (error) {
+          console.log('ocurrió un error al eliminar la imagen')
+        }
       }
-      console.log('imagen eliminada')
-      await deleteUser({ token })
-      console.log('usuario eilminado')
-      logout()
     } catch (error) {
       setLoading(false)
-      console.log('ocurrio un error al eliminar al usuario')
+      console.log('ocurrió un error al eliminar al usuario')
     } finally {
       setLoading(false)
     }
   }
+
+  // Eliminar todos los datos del usuario
+  const deleteDateUser = useMutation({
+    mutationFn: deleteAccount,
+    onSuccess: () => {
+      deleteUser({ token })
+      logout.mutate()
+    }
+  })
 
   // función para abrir el modal de confirmación de eliminación de cuenta
   const open = () => {
@@ -134,7 +159,7 @@ const DeleteAcount = () => {
           colorCancel='#2ad'
           accept='eliminar'
           colorAccept='#f55'
-          acceptAction={deleteAccount}
+          acceptAction={deleteDateUser.mutate}
           text='¿Eliminar cuenta?'
         />}
     </div>,

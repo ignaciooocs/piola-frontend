@@ -12,26 +12,47 @@ import { formatDate } from '../../utils/functions'
 import PreStorie from '../PreStorie'
 import { AnimatePresence, motion } from 'framer-motion'
 import Button from '../button/Button'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { deleteCommets } from '../../services/comments'
 
-const ProfileComments = ({ deletecomment, data }) => {
+const ProfileComments = ({ data }) => {
   // Función que actualiza el estado global
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
 
   // estados globales
-  const { id, token } = useSelector(state => state.user)
+  const { id, token, username } = useSelector(state => state.user)
   const { menu, confirm, preStorie } = useSelector(state => state.openModal)
-  // estado local
+
+  // estados locales
   const [commentId, setCommentId] = useState({})
   const [storieId, setStorieId] = useState(null)
   const [loading, setLoading] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
 
+  // Funcion para eliminar un comentario especifico con useMutation
+  const eliminarComentario = async () => {
+    setLoading(true)
+    dispatch(openConfirm({ confirm: false }))
+    return await deleteCommets(deleteId, { token })
+  }
+
+  const { mutate } = useMutation({
+    mutationFn: eliminarComentario,
+    onSuccess: () => {
+      queryClient.invalidateQueries(username)
+      setLoading(false)
+    }
+  })
+
+  // funcion para abrir menu para eliminar un comentario
   const open = (id) => {
     dispatch(confirmClose({ confirmClass: '' }))
     dispatch(openConfirm({ confirm: true }))
     setDeleteId(id)
   }
 
+  // funcion para cerrar el munu en caso que se presione "cancelar"
   const cancelAction = () => {
     dispatch(confirmClose({ confirmClass: 'confirmClass' }))
     setTimeout(() => {
@@ -40,20 +61,7 @@ const ProfileComments = ({ deletecomment, data }) => {
     }, 200)
   }
 
-  const deleteComment = async () => {
-    try {
-      setLoading(true)
-      dispatch(openConfirm({ confirm: false }))
-      await deletecomment(deleteId, { token })
-      console.log('se eliminó correctamente')
-    } catch (error) {
-      setLoading(false)
-      console.log('No se eliminó el post')
-    } finally {
-      setLoading(false)
-    }
-  }
-
+  // funcion para abrir un modal donde se podrá responder el comentario y subirlo a la historia
   const openInput = (id) => {
     dispatch(openPreStorie({ preStorie: true }))
     setStorieId(id)
@@ -73,7 +81,7 @@ const ProfileComments = ({ deletecomment, data }) => {
 
   return (
     <motion.ul layout className='user-comments-container'>
-      {data.comments.length === 0 &&
+      {(data.comments.length === 0) &&
         <NoPost id={id} _id={data._id} />}
       <AnimatePresence>
         {data.comments?.map((comment, index) => (
@@ -112,7 +120,7 @@ const ProfileComments = ({ deletecomment, data }) => {
               colorCancel='#2ad'
               accept='Eliminar'
               colorAccept='#f55'
-              acceptAction={deleteComment}
+              acceptAction={mutate}
               text='¿Eliminar post?'
             />
           }

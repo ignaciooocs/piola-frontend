@@ -14,7 +14,6 @@ export const useRefresh = (action) => {
   const setTime = () => {
     setTimeout(() => {
       refreshToken()
-      console.log('Se refrescó el token')
     }, 1000 * 60 * 12)
   }
 

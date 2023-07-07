@@ -5,12 +5,9 @@ export const register = async (content, state) => {
   try {
     const url = `${BASE_URL}/auth/register`
     const res = await Axios.post(url, content)
-    console.log(res.data)
     return res.data
   } catch (error) {
     state(error.response.data.error)
     state(error.response.data.errors[0].msg)
-    console.log(error.response.data.errors)
-    console.log('no se realizó el registro')
   }
 }

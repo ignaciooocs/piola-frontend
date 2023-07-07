@@ -1,51 +1,36 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { like, removeLike } from '../services/like'
-import { getUser, getUserById } from '../services/user'
-import { setProfileUser } from '../reducers/profileUser/profileUserSlice'
 import Loading from './loading/Loading'
 import { useState } from 'react'
-import { setProfileUserLoggedIn } from '../reducers/profileUserLoggedIn/profileUserLoggedIn'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const ButtonLike = ({ data }) => {
-  // se crea la funcion de dispatch y para traer el parametro
-  const dispatch = useDispatch()
-  const params = useParams()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
+  // Estado para el controlar el loading
   const [loading, setLoading] = useState(false)
 
   // traer los estados del reducer
-  const { token, id } = useSelector(state => state.user)
+  const { token, id, username } = useSelector(state => state.user)
 
   // Busca si el usuario iniciado a dado like al perfil (devuelve true o false)
   const fromLike = data.likes.some(user => user.fromUser === id)
-  console.log(fromLike)
 
   // se crea el objeto con el id del usuario que da like y el que lo recibe
-  const Like = {
-    fromUser: id,
-    toUser: data._id
-  }
+  const Like = { fromUser: id, toUser: data._id }
 
-  // Función para dar like
-  const postLike = async () => {
+  const POSTLIKE = async () => {
     try {
       if (!token) {
         navigate('/')
-        // window.alert('debes iniciar sesión')
-        console.log('Debes iniciar sesión')
         return
       }
       setLoading(true)
       await like(Like, { _id: data._id, token })
-      console.log('se dio el like')
-      const res = await getUser(params.username)
-      const user = await getUserById(id)
-      dispatch(setProfileUser(res))
-      dispatch(setProfileUserLoggedIn(user))
     } catch (error) {
       setLoading(false)
       console.log('ocurrio un error al dar like')
@@ -54,16 +39,19 @@ const ButtonLike = ({ data }) => {
     }
   }
 
-  // Función para quitar like
-  const deleteLike = async () => {
+  const postLikeMutation = useMutation({
+    mutationFn: POSTLIKE,
+    onSuccess: () => {
+      queryClient.invalidateQueries(username)
+      queryClient.invalidateQueries(data.username)
+    }
+  })
+
+  // Funcion para eliminar un like de un perfil
+  const REMOVELIKE = async () => {
     try {
       setLoading(true)
       await removeLike({ _id: data._id, token })
-      console.log('se elimino el like')
-      const res = await getUser(params.username)
-      const user = await getUserById(id)
-      dispatch(setProfileUser(res))
-      dispatch(setProfileUserLoggedIn(user))
     } catch (error) {
       setLoading(false)
       console.log('ocurrio un error al remover el like')
@@ -72,9 +60,18 @@ const ButtonLike = ({ data }) => {
     }
   }
 
+  const removeLikeMutation = useMutation({
+    mutationFn: REMOVELIKE,
+    onSuccess: () => {
+      console.log('Like removido')
+      queryClient.invalidateQueries(username)
+      queryClient.invalidateQueries(data.username)
+    }
+  })
+
   // Funcion que da o quita el like según si el usuario iniciado ya a dado like
   const postLikeAndRemove = () => {
-    fromLike ? deleteLike() : postLike()
+    fromLike ? removeLikeMutation.mutate() : postLikeMutation.mutate()
   }
 
   // Si el usuario iniciado da like el boton cambiará a rojo

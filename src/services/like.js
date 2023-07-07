@@ -36,8 +36,7 @@ export const removeLike = async ({ _id, token }) => {
 export const removeLikeById = async (id) => {
   try {
     const url = `${BASE_URL}/like/by/${id}`
-    const res = await Axios.delete(url)
-    console.log(res)
+    await Axios.delete(url)
   } catch (error) {
     console.log('no se eliminaron los likes por id')
   }

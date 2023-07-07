@@ -14,16 +14,11 @@ const Notifications = () => {
 
   const { id } = useSelector(state => state.user)
 
-  const get = async () => {
-    return await getNotifications(id)
-  }
+  const get = async () => await getNotifications(id)
 
   const { data: notification, isLoading, error } = useQuery({
     queryFn: get,
-    queryKey: ['Notifications'],
-    onSuccess: () => {
-      console.log('Notificaciones obtenidas')
-    }
+    queryKey: ['Notifications']
   })
 
   // función que te lleva al perfil del usuario el cual te a llegado la notificación
@@ -31,12 +26,12 @@ const Notifications = () => {
     navigate(`/${user}`)
   }
 
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading className='loader-container' />
   if (error) return <p>error: {error}</p>
   return (
     <div className='Notification'>
       <h3 className='notification-title'>Notificaciones</h3>
-      {notification?.length === 0 && <p>No tienes notificaciónes</p>}
+      {notification?.length === 0 && <p>No tienes notificaciones</p>}
       {notification &&
         <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} className='notifications-container'>
           {notification?.map(notification => (

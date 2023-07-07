@@ -24,8 +24,7 @@ export const deleteStories = async (storieId, { token }) => {
     }
   }
   try {
-    const res = await Axios.delete(`${BASE_URL}/storie/${storieId}`, config)
-    console.log(res)
+    await Axios.delete(`${BASE_URL}/storie/${storieId}`, config)
   } catch (error) {
     console.log('no se elimino la historia')
   }

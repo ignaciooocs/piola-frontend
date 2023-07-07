@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom'
 import unknown from '../assets/unknown.png'
+import Loading from './loading/Loading'
 
 const WelcomeScreen = () => {
   return createPortal(
@@ -17,6 +18,7 @@ const WelcomeScreen = () => {
     >
       <div style={{ width: '100px', height: '100px' }}>
         <img style={{ width: '100%', height: '100%' }} src={unknown} />
+        <Loading className='loader-container3' />
       </div>
     </div>,
     document.getElementById('welcome')

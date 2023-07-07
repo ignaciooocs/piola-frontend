@@ -2,12 +2,12 @@ import { initializeApp } from 'firebase/app'
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCUHh1hkhved5rBpCXLpeZnrbHqIO0xnyc',
-  authDomain: 'piola-imagenes.firebaseapp.com',
-  projectId: 'piola-imagenes',
-  storageBucket: 'piola-imagenes.appspot.com',
-  messagingSenderId: '795425240149',
-  appId: '1:795425240149:web:ed8c93d58c5d89019f90dc'
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId
 }
 
 // Initialize Firebase

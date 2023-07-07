@@ -15,7 +15,6 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 const Search = () => {
   // cargar los datos de la sesion del usuario actual y mandarlos al reducer
 
-  const { liked } = useSelector(state => state.profileUserLoggedIn)
   const { token, id } = useSelector(state => state.user)
 
   const get = async () => {
@@ -68,7 +67,7 @@ const Search = () => {
 
   const inputRef = useRef(null)
 
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading className='loader-container' />
   if (error) return <p>error: {error}</p>
 
   return (
@@ -85,7 +84,7 @@ const Search = () => {
         </div>
       </form>
       {searchResults?.length === 0 && <p className='notResults'>no hay resultados de "{searchTerm}"</p>}
-      {(liked?.length === 0 && searchTerm === '') && <SearchEmpty />}
+      {(data.length === 0 && searchTerm === '') && <SearchEmpty />}
       <div className='users-container-search'>
         <motion.ul layout className='users-search'>
           <AnimatePresence>

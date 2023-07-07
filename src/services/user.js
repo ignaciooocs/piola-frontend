@@ -23,20 +23,19 @@ export const getUserById = async (id) => {
   }
 }
 
-export const editUser = async (content, { _id, token }) => {
+export const editUser = async (content, { token }) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`
     }
   }
   try {
-    const url = `${BASE_URL}/users/${_id}`
-    const res = await Axios.put(url, content, config)
+    const url = `${BASE_URL}/users`
+    const res = await Axios.post(url, content, config)
     const { data } = res
     return data
   } catch (error) {
-    console.log('error al actualizar al usuario')
-    console.log(error.response.data.error)
+    throw new Error(error.response.data.error)
   }
 }
 

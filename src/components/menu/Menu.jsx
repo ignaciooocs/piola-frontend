@@ -13,6 +13,7 @@ const Menu = () => {
 
   // estado global para actualizar la clase
   const { classClose } = useSelector(state => state.className)
+  const { username } = useSelector(state => state.user)
 
   // función que abre el modal de confirmacion para cerrar sesión
   const open = () => {
@@ -25,7 +26,7 @@ const Menu = () => {
       <h4>Menú</h4>
       <div className='container-buttons'>
         <div className='buttons-menu'>
-          <Button title='editar perfil' color='#2ad' onClick={() => navigate('/edit/profile')} />
+          <Button title='editar perfil' color='#2ad' onClick={() => navigate('/edit/profile/' + username)} />
           <Button title='Cambiar contraseña' onClick={() => dispatch(openPassword({ editPassword: true }))} color='#2ad' />
           <Button title='Eliminar cuenta' onClick={() => dispatch(openDeleteAccount({ deleteAccount: true }))} color='#f55' />
         </div>

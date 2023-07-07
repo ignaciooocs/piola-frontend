@@ -9,8 +9,7 @@ export const deletePicture = async ({ token }) => {
   }
   try {
     const url = `${BASE_URL}/profile/image`
-    const res = await Axios.delete(url, config)
-    console.log(res)
+    await Axios.delete(url, config)
   } catch (error) {
     console.log('no se elimino la imagen')
   }

@@ -3,23 +3,31 @@ import { createPortal } from 'react-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { openBiography } from '../../reducers/opnModalSlice/openModal'
-import { setProfileUser, setComments } from '../../reducers/profileUser/profileUserSlice'
 import { editUser } from '../../services/user'
 import Button from '../button/Button'
 import Loading from '../loading/Loading'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const EditBiography = ({ data }) => {
   // se crea la función del dispatch para actualizar los estados globales
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   // traer los estados globales
   const { token } = useSelector(state => state.user)
 
   // estados locales
   const [loading, setLoading] = useState(false)
-  const [input, setInput] = useState(data.biography)
+  const [input, setInput] = useState(data.biography || '')
   const [close, setClose] = useState('')
+
+  const { mutate } = useMutation((newBiography) => editUser(newBiography, { token }), {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(data.username)
+      navigate(`/${data.username}`)
+    }
+  })
 
   // Función para actualizar biografía
   const submitBiography = async (e) => {
@@ -32,16 +40,9 @@ const EditBiography = ({ data }) => {
         biography: input
       }
 
-      const res = await editUser(newBiography, { _id: data._id, token })
-      dispatch(setProfileUser(res))
-      dispatch(setComments({ comments: data.comments }))
-      console.log(res)
-      navigate(`/${res.username}`)
+      mutate(newBiography)
     } catch (error) {
-      setLoading(false)
       console.log('No se actualizo la biografía')
-    } finally {
-      setLoading(false)
     }
   }
 

@@ -2,29 +2,26 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { unsetUser } from '../../reducers/user/userSlice'
-import { setLikedUsers } from '../../reducers/likedUsersSlice/likedUsersSlice'
-import { unsetProfileUserLoggedIn } from '../../reducers/profileUserLoggedIn/profileUserLoggedIn'
-import { setProfileUser, unsetProfileUser } from '../../reducers/profileUser/profileUserSlice'
 import { defaultOpenModal, openConfirm, openMenu } from '../../reducers/opnModalSlice/openModal'
 import './Navbar.css'
 import home from '../../assets/home2.png'
 import search from '../../assets/search2.png'
 import profile from '../../assets/profile.png'
 import notificationsIcon from '../../assets/notifications.png'
-import { getUser } from '../../services/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { unsetNotification } from '../../reducers/notificationSlice/notificationSlice'
 import { changeClose, confirmClose, deleteClose } from '../../reducers/className/classSlice'
 import ConfirmModal from '../confirmModal/ConfirmModal'
 import { Logout } from '../../services/logout'
 import { motion } from 'framer-motion'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const Navbar = () => {
   // Funcion de dispatch y de navegacion
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+  const queryClient = useQueryClient()
   const path = location.pathname
 
   // Traer los estados del reducer
@@ -34,50 +31,15 @@ const Navbar = () => {
 
   const [rotate, setRotate] = useState('')
 
-  const exit = async () => {
-    try {
-      await Logout()
-    } catch (error) {
-      console.log('error logout')
+  const mutation = useMutation({
+    mutationFn: Logout,
+    onSuccess: () => {
+      dispatch(unsetUser())
+      dispatch(openConfirm({ confirm: false }))
+      navigate('/')
+      queryClient.clear()
     }
-  }
-
-  // Cerrar la sesion del usuario
-  const logout = () => {
-    exit()
-    dispatch(unsetUser())
-    dispatch(setLikedUsers({
-      likedUsers: null
-    }))
-    dispatch(unsetProfileUserLoggedIn())
-    dispatch(unsetProfileUser())
-    dispatch(unsetNotification())
-    dispatch(openConfirm({ confirm: false }))
-    navigate('/')
-  }
-
-  // funciones de onClick de cada icono
-  const userProfile = async () => {
-    dispatch(unsetProfileUser())
-    navigate(`/${username}`)
-    const res = await getUser(username)
-    dispatch(setProfileUser(res))
-  }
-
-  const homeOnClick = () => {
-    dispatch(unsetProfileUser())
-    navigate('/')
-  }
-
-  const searchOnClick = () => {
-    dispatch(unsetProfileUser())
-    navigate('/search')
-  }
-
-  const notificationsOnClick = () => {
-    dispatch(unsetProfileUser())
-    navigate('/notifications')
-  }
+  })
 
   // Funcion para abrir y cerrar el nenú del perfil
   const setMenu = () => {
@@ -136,17 +98,21 @@ const Navbar = () => {
         }
         {((path !== '/login' && path !== '/register') && token) &&
           <div className='header-icons'>
-            <div className={className('/')} onClick={homeOnClick}>
+            <div className={className('/')} onClick={() => navigate('/')}>
               <img className='home-icon' src={home} />
             </div>
-            <div className={className('/search')} onClick={searchOnClick}>
+            <div className={className('/search')} onClick={() => navigate('/search')}>
               <img className='search-icon' src={search} />
             </div>
-            <div className={className('/notifications')} onClick={notificationsOnClick}>
+            <div className={className('/notifications')} onClick={() => navigate('/notifications')}>
               <img className='profile-icon' src={notificationsIcon} />
               {/* {notification && <div style={{ height: '10px', width: '10px', borderRadius: '50%', background: '#f55' }} />} */}
             </div>
-            <div className={className(`/${username}`)} onClick={userProfile}>
+            <div
+              className={className(`/${username}`)} onClick={() => {
+                navigate(`/${username}`)
+              }}
+            >
               <img className='profile-icon' src={profile} />
             </div>
           </div>}
@@ -159,7 +125,7 @@ const Navbar = () => {
           colorCancel='#2ad'
           accept='cerrar'
           colorAccept='#f55'
-          acceptAction={logout}
+          acceptAction={mutation.mutate}
           text='¿Cerrar sesión?'
         />
       }

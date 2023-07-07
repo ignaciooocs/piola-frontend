@@ -8,7 +8,6 @@ export const login = async (userLogin, state) => {
     const { data } = res
     return data
   } catch (error) {
-    console.log(error.response.data)
     state(error.response.data.error)
   }
 }

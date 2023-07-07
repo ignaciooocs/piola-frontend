@@ -49,7 +49,6 @@ const Picture = ({ data }) => {
   const handleSubmitFile = async (e) => {
     e.preventDefault()
     if (!image) {
-      console.log('no se cambio')
       return
     }
     try {
@@ -59,8 +58,7 @@ const Picture = ({ data }) => {
         url: res
       }
       const url = `${BASE_URL}/profile/image`
-      const response = await Axios.post(url, files, config)
-      console.log(response)
+      await Axios.post(url, files, config)
       navigate(`/${username}`)
     } catch (error) {
       setLoading(false)

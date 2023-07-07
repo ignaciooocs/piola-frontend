@@ -11,8 +11,8 @@
   gap: 15px;
   background: rgba(0, 0, 0, 0.1);
   font-family: "Montserrat", sans-serif;
-  z-index: 30;
   transition: 0.5s;
+  z-index: 1200 !important;
 }
 
 .confirm {
@@ -26,6 +26,7 @@
   background: #fff;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
+  z-index: 1200;
 }
 
 .container-button-confirm {

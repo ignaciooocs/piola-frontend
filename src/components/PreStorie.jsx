@@ -1,36 +1,36 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { StorieContext } from '../context/storieProvider'
 import { openPreStorie } from '../reducers/opnModalSlice/openModal'
-import { setProfileUser } from '../reducers/profileUser/profileUserSlice'
 import { getCommentById } from '../services/comments'
 import { postStorie } from '../services/stories'
-import { getUser } from '../services/user'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { motion } from 'framer-motion'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const PreStorie = ({ commentId, comment }) => {
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const { token, username } = useSelector(state => state.user)
-  const { stories } = useSelector(state => state.profileUser)
-
-  const { getStories } = useContext(StorieContext)
 
   const [input, setInput] = useState('')
   const [color, setColor] = useState('#2ad')
 
+  const { mutate } = useMutation((content) => postStorie(content, { token }), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(username)
+    }
+  })
+
   const newStorie = async (id) => {
     try {
       if (!input.trim()) {
-        console.log('Debes escribir algo!')
         return
       }
 
       const comment = await getCommentById(id)
       if (!comment) {
-        console.log('no se encontro el comentario')
         return
       }
 
@@ -42,10 +42,7 @@ const PreStorie = ({ commentId, comment }) => {
 
       }
 
-      await postStorie(contentStorie, { token })
-      const user = await getUser(username)
-      dispatch(setProfileUser(user))
-      getStories(stories)
+      mutate(contentStorie)
       setIsOpen(false)
       setTimeout(() => dispatch(openPreStorie({ preStorie: false })), 100)
     } catch (error) {

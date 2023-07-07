@@ -52,7 +52,6 @@ const Login = () => {
 
     try {
       const data = await login(userLogin, setError)
-      console.log(data)
       dispatch(setUser(data))
       navigate('/')
     } catch (error) {
@@ -82,7 +81,7 @@ const Login = () => {
       </form>
       <p className='registrate'>¿No tienes una cuenta? <br /> <NavLink style={{ color: '#2ad' }} to='/register'>Regístrate</NavLink></p>
       <div className='welcome-description'>
-        <p className='welcome'>Pagina Web de Preguntas y Confesiones Anónimas en Piola 🤐 Conéctate con tus amigos y comparte preguntas y confesiones completamente anónimas. 👌 Dale "Me gusta" a los perfiles y hazles preguntas o confesiones secretas.🤫 Personaliza tu perfil con una foto para ser reconocido.😏 Recibe notificaciones en tiempo real cuando alguien valore tu perfil con un "Me gusta".📥 Actualiza tu biografía, nombre de usuario y foto para mantener tu perfil actualizado.💪 Elimina de forma inmediata cualquier pregunta o confesión inapropiada.❌ Mantente informado sobre las últimas preguntas y confesiones de tus contactos.</p>
+        <p className='welcome'>Pagina Web de Preguntas y Confesiones Anónimas en Piola 🤐 Conéctate con tus amigos y comparte preguntas y confesiones completamente anónimas. 👌 Dale "Me gusta" a los perfiles y hazles preguntas o confesiones secretas.🤫 Personaliza tu perfil con una foto para ser reconocido.😏 Recibe notificaciones en tiempo real cuando alguien valore tu perfil con un "Me gusta".📥 Puedes cambiar tu biografía, nombre de usuario y foto para mantener tu perfil actualizado.💪 Elimina de forma inmediata cualquier pregunta o confesión inapropiada.❌ Mantente informado sobre las últimas preguntas y confesiones de tus contactos.</p>
       </div>
     </div>
   )
